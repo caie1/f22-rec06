@@ -5,13 +5,13 @@ package account;
  *
  * @author Zishen Wen (F22), Deyuan Chen (S22)
  */
-// TODO: Think about what can be a issue of the Student class?
-public class Student extends PaymentAccount {
+public class Student {
 
+    private final PaymentAccount paymentAccount;
     private double gpa;
 
-    public Student(String name, int studentID, double gpa) {
-        super(name, studentID);
+    public Student(PaymentAccount accountData, double gpa) {
+        this.paymentAccount = accountData;
         this.gpa = gpa;
     }
 
@@ -23,8 +23,7 @@ public class Student extends PaymentAccount {
         return this.gpa;
     }
 
-    @Override
     public boolean pay(int amount) {
-        return false; // No payment option.
+        return paymentAccount.pay(amount);
     }
 }

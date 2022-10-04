@@ -13,7 +13,7 @@ class PNGWriter implements Writer {
 	}
 	// This is a stub class. Pretend this writer work.
 	write(values: number[]) {
-		// TODO: Stub. Pretend it is complete.
+		// Stub. Pretend it is complete.
 	}
 }
 

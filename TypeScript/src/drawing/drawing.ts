@@ -2,7 +2,9 @@ import { Shape } from "./shapes/shape";
 import { Writer } from "./writing/writer";
 import { JPEGWriter } from "./writing/jpegwriter";
 import { PNGWriter } from "./writing/pngwriter";
-import { Line } from "./shapes/line";
+import { JPEGFormatter } from "./formatting/jpegformatter";
+import { PNGFormatter } from "./formatting/pngformatter";
+import { Formatter } from "./formatting/formatter";
 
 class Drawing {
 
@@ -18,30 +20,29 @@ class Drawing {
      * @param format file format
      * @param filename file name
      */
-    public draw(format: string, filename: string): void {
+	 public draw(format: string, filename: string): void {
+        let outName: string = filename + "." + format;
         if (format === "jpeg") {
-			// TODO: Do you notice code duplication here?
-            try {
-                let writer: Writer = new JPEGWriter(filename + ".png")
-                for (let shape of this.shapes) {
-					// TODO: What is the issue of the behavior here?
-                    let lines: Line[] = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (e) {
-                console.log(e);
-            }
+            this.write(new JPEGWriter(outName), new JPEGFormatter());
         }
         else if (format === "png") {
-            try {
-                let writer: Writer = new PNGWriter(filename + ".png")
-                for (let shape of this.shapes) {
-                    let lines: Line[] = shape.toLines();
-                    shape.draw(writer, lines);
-                }
-            } catch (e) {
-                console.log(e);
+            this.write(new PNGWriter(outName), new PNGFormatter());
+        }
+        else {
+            throw new Error("Format not recognized: " + format);
+        }
+    }
+	
+	 private write(writer: Writer, formatter: Formatter): void {
+        try {
+            for (let shape of this.shapes) {
+                // Moved the misplaced call to 'toLines' to the Shape's 'draw' method.
+                // We could even just "inline" Shape.draw here and remove it from the interface. That takes away a
+                // "default method" (which isn't ideal) and simplify dependencies for Shapes.
+                shape.draw(writer, formatter);
             }
+        } catch (e) {
+            console.log(e)
         }
     }
 }
