@@ -3,6 +3,8 @@ import { Writer } from "./writing/writer";
 import { JPEGWriter } from "./writing/jpegwriter";
 import { PNGWriter } from "./writing/pngwriter";
 import { Line } from "./shapes/line";
+import { JPEGFormatter } from "./formatting/jpegformatter";
+import { Formatter } from "./formatting/formatter";
 
 class Drawing {
 
@@ -25,8 +27,7 @@ class Drawing {
                 let writer: Writer = new JPEGWriter(filename + ".png")
                 for (let shape of this.shapes) {
 					// TODO: What is the issue of the behavior here?
-                    let lines: Line[] = shape.toLines();
-                    shape.draw(writer, lines);
+                    shape.draw(writer, new JPEGFormatter());
                 }
             } catch (e) {
                 console.log(e);
@@ -36,8 +37,7 @@ class Drawing {
             try {
                 let writer: Writer = new PNGWriter(filename + ".png")
                 for (let shape of this.shapes) {
-                    let lines: Line[] = shape.toLines();
-                    shape.draw(writer, lines);
+                    shape.draw(writer, new JPEGFormatter());
                 }
             } catch (e) {
                 console.log(e);

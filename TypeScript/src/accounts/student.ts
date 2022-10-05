@@ -6,13 +6,14 @@ import { PaymentAccount } from "./paymentaccount";
  * @author Zishen Wen (F22), Deyuan Chen (S22)
  */
 // TODO: Think about what can be a issue of the Student class?
-class Student extends PaymentAccount {
+class Student{
 
+	private payment : PaymentAccount;
 	private gpa: number;
 
-	constructor(accountHolder: string, accountNumber: number, gpa: number) {
-		super(accountHolder, accountNumber);
+	constructor(payment: PaymentAccount, gpa: number) {
 		this.gpa = gpa;
+		this.payment = payment;
 	}
 
 	public getGPA(): number {
@@ -25,6 +26,6 @@ class Student extends PaymentAccount {
 
 	// TODO: Do you think student should have an method of pay? (Refused Bequest)
 	public pay(amount: number): boolean {
-		return false; // No payment option.
+		return this.payment.pay(amount);
 	}
 }

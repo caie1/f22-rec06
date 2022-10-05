@@ -21,22 +21,11 @@ class Frogger {
      */
     public move(forward: boolean): boolean {
         let nextPosition: number = this.position + (forward ? 1 : -1);
-        if (!this.isValid(nextPosition) || this.isOccupied(nextPosition)) {
+        if (!this.road.isValid(nextPosition) || this.road.isOccupied(nextPosition)) {
             return false;
         }
         this.position = nextPosition;
         return true;
     }
 
-	// TODO: Do you notice any issues of here?
-    public isOccupied(position: number): boolean {
-        let occupied: boolean[] = this.road.getOccupied();
-        return occupied[position];
-    }
-
-    public isValid(position: number): boolean {
-        if (position < 0) return false;
-        let occupied: boolean[] = this.road.getOccupied();
-        return position < occupied.length;
-    }
 }
