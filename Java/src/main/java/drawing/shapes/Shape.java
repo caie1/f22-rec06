@@ -5,6 +5,7 @@ import drawing.writing.PNGWriter;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.logging.Formatter;
 
 /**
  * Refactor Exercise 3: (Mis-)Shaped
@@ -23,18 +24,10 @@ public interface Shape {
     /**
      * Draws lines to file.
      */
-    default void draw(Writer writer, Line[] lines) {
-        try {
+    default void draw(Writer writer, Formatter formatter) throws IOException{
+        Line[] lines = this.toLines();
             for (Line line : lines) {
-                // TODO: what is the purpose of the code there?
-                if (writer instanceof JPEGWriter) {
-                    writer.write(line.toJPEG());
-                } else if (writer instanceof PNGWriter) {
-                    writer.write(line.toPNG());
-                }
+                writer.write(formatter.format(line));
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }
